@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gửi bạn💌</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffe0ec, #f8dfff);
+    font-family: Georgia, serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    width: 90%;
+}
+
+h2 {
+    color: #d66c94;
+    margin-bottom: 35px;
+}
+
+.envelope {
+    width: 260px;
+    height: 170px;
+    background: #ff9fbd;
+    margin: auto;
+    position: relative;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px #d68ca5;
+    transition: 0.5s;
+}
+
+.envelope:hover {
+    transform: translateY(-8px);
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 130px solid transparent;
+    border-right: 130px solid transparent;
+    border-top: 100px solid #f779a3;
+    z-index: 2;
+}
+
+.heart {
+    position: absolute;
+    top: 65px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 35px;
+    z-index: 3;
+}
+
+.open-btn {
+    margin-top: 30px;
+    border: none;
+    background: #e979a0;
+    color: white;
+    padding: 13px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.letter {
+    display: none;
+    position: fixed;
+    width: 88%;
+    max-width: 380px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: #fffaf4;
+    padding: 28px 23px;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px #c58ba5;
+    z-index: 10;
+    animation: appear 0.7s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(100px) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.letter h2 {
+    color: #df7599;
+}
+
+.content {
+    color: #76515e;
+    line-height: 1.9;
+    text-align: left;
+    white-space: pre-line;
+    font-size: 16px;
+}
+
+.close-btn, .love-btn {
+    border: none;
+    padding: 11px 20px;
+    border-radius: 20px;
+    margin: 10px 5px;
+    background: #f49ab8;
+    color: white;
+    cursor: pointer;
+}
+
+.flying-heart {
+    position: fixed;
+    bottom: -30px;
+    animation: fly 3s linear forwards;
+    pointer-events: none;
+}
+
+@keyframes fly {
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>💗</h2>
+
+    <div class="envelope" onclick="openLetter()">
+        <div class="flap"></div>
+        <div class="heart">💌</div>
+    </div>
+
+    <button class="open-btn" onclick="openLetter()">
+        Mở lá thư nhé ♡
+    </button>
+
+</div>
+
+<div class="letter" id="letter">
+
+    <h2>Gửi Khoa💗</h2>
+
+    <div class="content" id="message"></div>
+
+    <p style="color:#df7599">
+        — Dạ Lý
+    </p>
+
+    <button class="love-btn" onclick="makeHearts()">
+        Gửi một trái tim 💗
+    </button>
+
+    <button class="close-btn" onclick="closeLetter()">
+        Đóng thư ✉️
+    </button>
+
+</div>
+
+<script>
+
+const text = `Gửi cậu,
+
+Tớ không biết phải bắt đầu từ đâu,
+nhưng tớ muốn dành một chút thời gian
+để viết cho cậu vài dòng.
+
+Cảm ơn cậu vì đã xuất hiện, ba chấm ba chấm ba chấm test thử thôi`
+let typing;
+
+function openLetter() {
+    document.getElementById("letter").style.display = "block";
+
+    const message = document.getElementById("message");
+    message.innerHTML = "";
+
+    let i = 0;
+    clearInterval(typing);
+
+    typing = setInterval(() => {
+        message.innerHTML += text.charAt(i);
+        i++;
+
+        if (i >= text.length) {
+            clearInterval(typing);
+        }
+    }, 45);
+}
+
+function closeLetter() {
+    document.getElementById("letter").style.display = "none";
+    clearInterval(typing);
+}
+
+function makeHearts() {
+    for (let i = 0; i < 15; i++) {
+        const heart = document.createElement("div");
+
+        heart.className = "flying-heart";
+        heart.innerHTML = ["💗","💕","💖","💘"][Math.floor(Math.random()*4)];
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (18 + Math.random()*20) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 3000);
+    }
+}
+
+</script>
+
+</body>
+</html>
